@@ -11,7 +11,7 @@ import java.util.Collections;
 
 
 public class ChatGPT implements ChatGPTInterface {
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     private final RestTemplate restTemplate;
