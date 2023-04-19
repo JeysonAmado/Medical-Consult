@@ -1,0 +1,15 @@
+
+#Mongo
+
+spring.data.mongodb.host=hostdatabase
+spring.data.mongodb.port=port
+spring.data.mongodb.database=database_name
+spring.data.mongodb.username=username
+spring.data.mongodb.password=password
+
+#Port
+server.port=8081
+
+#ChatGPT
+chatgpt.apiKey=ChatGPT_KEY
+chatgpt.apiUrl=https://api.openai.com/v1/chat/completions
