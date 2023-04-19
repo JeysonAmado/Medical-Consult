@@ -3,21 +3,24 @@ package com.jeyson.makeMedicalConsultation.Api;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jeyson.makeMedicalConsultation.Interfaces.Api.ChatGPTInterface;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 
-
+@Component
 public class ChatGPT implements ChatGPTInterface {
-    private static final String API_KEY = "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";
-    private static final String API_URL = "https://api.openai.com/v1/chat/completions";
+    private final String apiKey;
+    private final String apiUrl;
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    public ChatGPT() {
+    public ChatGPT(@Value("${chatgpt.apiKey}") String apiKey, @Value("${chatgpt.apiUrl}") String apiUrl) {
+        this.apiKey = apiKey;
+        this.apiUrl = apiUrl;
         restTemplate = new RestTemplate();
         objectMapper = new ObjectMapper();
     }
@@ -27,8 +30,8 @@ public class ChatGPT implements ChatGPTInterface {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(API_KEY);
-        String medicalConsult = "Actua como un médico y dame un diagnostico según los siguientes sintomas: "+inputText;
+        headers.setBearerAuth(apiKey);
+        String medicalConsult = "Actua como un médico y dame un diagnostico según los siguientes sintomas: " + inputText;
 
         String requestBody = String.format(
                 "{ \"model\": \"gpt-3.5-turbo\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}] }",
@@ -36,7 +39,7 @@ public class ChatGPT implements ChatGPTInterface {
         );
 
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
-        ResponseEntity<String> response = restTemplate.exchange(API_URL, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, entity, String.class);
 
         if (response.getStatusCode().is2xxSuccessful()) {
             try {
