@@ -13,14 +13,15 @@ public class ConsultService implements ConsultServiceInterface {
 
     @Autowired
     private ConsultRespository consultRepository;
-    @Override
-    public Optional<Consult> getConsultById(String id) {
-        return consultRepository.findById(id);
-    }
 
     @Override
     public List<Consult> getAllConsults() {
         return consultRepository.findAll();
+    }
+
+    @Override
+    public Consult getConsultById(Long id) {
+        return consultRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class ConsultService implements ConsultServiceInterface {
     }
 
     @Override
-    public void deleteConsultById(String id) {
+    public void deleteConsultById(Long id) {
         consultRepository.deleteById(id);
     }
 }

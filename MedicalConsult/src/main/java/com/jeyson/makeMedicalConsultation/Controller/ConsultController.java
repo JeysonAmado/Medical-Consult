@@ -3,12 +3,9 @@ package com.jeyson.makeMedicalConsultation.Controller;
 import com.jeyson.makeMedicalConsultation.Entity.Consult;
 import com.jeyson.makeMedicalConsultation.Interfaces.Services.ConsultServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/consult")
@@ -16,31 +13,35 @@ public class ConsultController {
     @Autowired
     private ConsultServiceInterface consultService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Consult> getConsultById(@PathVariable String id) {
-        Optional<Consult> consult = consultService.getConsultById(id);
-        if (consult.isPresent()) {
-            return new ResponseEntity<>(consult.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("")
+    public List<Consult> getAllConsults() {
+        return consultService.getAllConsults();
     }
 
-    @GetMapping
-    public ResponseEntity<List<Consult>> getAllConsults() {
-        List<Consult> consults = consultService.getAllConsults();
-        return new ResponseEntity<>(consults, HttpStatus.OK);
+    @GetMapping("/{id}")
+    public Consult getConsultById(@PathVariable Long id) {
+        return consultService.getConsultById(id);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Consult> saveConsult(@RequestBody Consult consult) {
-        Consult savedConsult = consultService.saveConsult(consult);
-        return new ResponseEntity<>(savedConsult, HttpStatus.CREATED);
+    public Consult createConsult(@RequestBody Consult consult) {
+        return consultService.saveConsult(consult);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteConsultById(@PathVariable String id) {
+    @PutMapping("/{id}")
+    public Consult updateConsult(@PathVariable Long id, @RequestBody Consult consult) {
+        Consult consultToUpdate = consultService.getConsultById(id);
+        if (consultToUpdate != null) {
+            consultToUpdate.setSymptoms(consult.getSymptoms());
+            consultToUpdate.setDiagnostic(consult.getDiagnostic());
+            return consultService.saveConsult(consultToUpdate);
+        } else {
+            return null;
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteConsultById(@PathVariable Long id) {
         consultService.deleteConsultById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

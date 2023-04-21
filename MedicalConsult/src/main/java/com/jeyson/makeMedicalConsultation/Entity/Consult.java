@@ -1,21 +1,30 @@
 package com.jeyson.makeMedicalConsultation.Entity;
 
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "consult")
+@Entity
+@Table(name = "consult")
 public class Consult {
     @Id
-    private String _id;
+    private int id;
+
+    @Column(name = "symptoms")
     private String symptoms;
+
+    @Column(name = "diagnostic")
     private String diagnostic;
 
-    public String get_id() {
-        return _id;
+    public int getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSymptoms() {

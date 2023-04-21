@@ -1,15 +1,11 @@
+#MySQLConnection
+spring.datasource.url=jdbc:mysql://<host>:<port>/<database_bame>?useSSL=false&serverTimezone=UTC
+spring.datasource.username=<user>
+spring.datasource.password=<password>
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
-#Mongo
 
-spring.data.mongodb.host=hostdatabase
-spring.data.mongodb.port=port
-spring.data.mongodb.database=database_name
-spring.data.mongodb.username=username
-spring.data.mongodb.password=password
-
-#Port
 server.port=8081
 
-#ChatGPT
-chatgpt.apiKey=ChatGPT_KEY
+chatgpt.apiKey=<API_KEY>
 chatgpt.apiUrl=https://api.openai.com/v1/chat/completions

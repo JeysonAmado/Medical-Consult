@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface ConsultServiceInterface {
 
-    Optional<Consult> getConsultById(String id);
-
     List<Consult> getAllConsults();
+
+    Consult getConsultById(Long id);
 
     Consult saveConsult(Consult consult);
 
-    void deleteConsultById(String id);
+    void deleteConsultById(Long id);
 }
