@@ -21,6 +21,9 @@ jobs:
         with:
           java-version: '17'
 
+      - name: Change to correct directory
+        run: cd Medical-Consult/MedicalConsult
+
       - name: Build with Maven
         run: mvn clean install
 
@@ -28,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '${{ github.workspace }}/Medical-Consult/MedicalConsult/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
