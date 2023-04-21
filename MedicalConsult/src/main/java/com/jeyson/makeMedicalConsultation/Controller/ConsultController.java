@@ -44,4 +44,9 @@ public class ConsultController {
     public void deleteConsultById(@PathVariable Long id) {
         consultService.deleteConsultById(id);
     }
+
+    @GetMapping("/verificar/test")
+    public String verificar() {
+        return "Conexión Exitosa";
+    }
 }
