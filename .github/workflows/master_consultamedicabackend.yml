@@ -16,11 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
       - name: Set up Java version
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin' # Usamos la distribución 'temurin', pero puedes elegir otra como 'adopt' o 'zulu'
+          distribution: 'temurin'
 
       - name: Build with Maven
         run: mvn clean install
@@ -37,7 +42,7 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
