@@ -12,20 +12,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: node:16-bullseye-slim
+      options: --user=root --entrypoint=bash
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Set up Java version
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+      - name: Install Java and other dependencies
+        run: |
+          apt-get update
+          apt-get install -y openjdk-17-jdk maven
 
       - name: Build with Maven
         run: mvn clean install
