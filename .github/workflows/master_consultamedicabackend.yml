@@ -12,18 +12,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: node:16-bullseye-slim
+      options: --user=root --entrypoint=bash
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Java version
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Change to correct directory
-        run: cd Medical-Consult/MedicalConsult
+      - name: Install Java and other dependencies
+        run: |
+          apt-get update
+          apt-get install -y openjdk-17-jdk maven
 
       - name: Build with Maven
         run: mvn clean install
@@ -32,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/Medical-Consult/MedicalConsult/target/*.jar'
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -40,7 +39,7 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
